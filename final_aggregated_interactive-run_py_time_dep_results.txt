@@ -1,4 +1,4 @@
-# Time-Dependent Results (Python Simulation)
+
 # Used 8192 trajectories for analysis.
 #Time		P0_adia_avg		P1_adia_avg		P0_dia_avg		P1_dia_avg		Etot_avg
 0.000000    		0.000000    		0.000000    		1.000000    		0.000000    		0.000000    
