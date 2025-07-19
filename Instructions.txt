@@ -1,0 +1,14 @@
+Add comments very sparsely. Mostly only use them when calling a function from an imported file. like:
+
+import abc
+#calling asd from abc
+y=asd(x)
+#calling linalg from numpy
+#calling inbuilt function xyz
+
+if lines go over 60 characters, 
+try to continue in next line rather than letting the line get long. This holds for comments too. 
+
+files of different format may be provided in .txt format, for example main.py.txt
+
+see summary.txt
