@@ -7,7 +7,7 @@ run_single_trajector.py:
 *uses initialize_trajectory.py to initialize a trajectory.
 *uses nucl_dia_HanddH.py to set up nuclear Hamiltonian and force
 *uses derivs_dia.py to calculate trajectory coordinate derivatives
-*solves full ode and returns the solution
+*solves trajectory vs time and returns the solution
 
 initialize.py: samples nuclear trajectories with bath.py and electronic from window_options.py
 
