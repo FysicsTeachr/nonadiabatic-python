@@ -1,2 +1,3 @@
-to run:
-./interactive.sh
+./interactive.sh to do a preset test run
+
+summary.txt contains file info.
