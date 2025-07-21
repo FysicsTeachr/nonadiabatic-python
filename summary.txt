@@ -1,1 +1,14 @@
-(*placeholder*)
+./interactive.sh begins the code. calls main.py
+main.py sets up bath (bath.py) using input argm. then it submits trajectories to parallel workers.
+
+The workers run one trajectory at a time using run_single_trajectory.py
+
+run_single_trajector.py:
+*uses initialize_trajectory.py to initialize a trajectory.
+*uses nucl_dia_HanddH.py to set up nuclear Hamiltonian and force
+*uses derivs_dia.py to calculate trajectory coordinate derivatives
+*solves full ode and returns the solution
+
+initialize.py: samples nuclear trajectories with bath.py and electronic from window_options.py
+
+analysis.py and process_output.py: final output processing and data printing.
