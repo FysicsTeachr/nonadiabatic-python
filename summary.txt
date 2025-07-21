@@ -1,5 +1,5 @@
 ./interactive.sh begins the code. calls main.py
-main.py sets up bath (bath.py) using input argm. then it submits trajectories to parallel workers.
+main.py sets up bath (bath.py) using input argm file. then it submits trajectories to parallel workers.
 
 The workers run one trajectory at a time using run_single_trajectory.py
 
