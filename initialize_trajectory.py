@@ -1,5 +1,3 @@
-# New2/initialize_trajectory.py (Corrected Order)
-
 from typing import Dict, Any
 import numpy as np
 from window_options import sample_histogram_window, sample_triangular_window
@@ -17,21 +15,19 @@ def initialize_traj(params,rng):
     init_state = int(params.get("init_state", 0))
     window_model = params.get("window_model", "histogram").lower()
 
-    # --- THE FIX: The order of these blocks is critical ---
-
-    # 1. Sample the NUCLEAR variables FIRST to match the original code.
+    # 1. Sample the NUCLEAR variables
     built_bath_params = params.get("built_bath_params", None)
     if built_bath_params and \
        params.get("nuclear_model", "").lower() == "spin-boson":
         trajectory_R, trajectory_P = baths.sample_spin_boson_bath(
                               built_bath_params, init_state, rng )
 
-    # 2. Sample the ELECTRONIC variables SECOND.
+    # 2. Sample the ELECTRONIC variables
     if window_model == "triangular":
         L = 1.0 / 3.0
     else:
         L = params.get("L", 0.366)
-    
+
     if window_model == "histogram":
         trajectory_x, trajectory_p = sample_histogram_window(
                                       init_state, F, L, rng )
