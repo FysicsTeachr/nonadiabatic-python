@@ -1,0 +1,21 @@
+basis           6-31g*
+method          b3lyp
+keep_scr        no
+charge          0
+spinmult        1
+genscrdata      false
+precision       double
+
+# QM/MM settings
+#qmmm            1
+coordinates          /home/pan60047/tcpb_SI/tcpb_examples/python_openmm/rst/system.rst7
+prmtop          /home/pan60047/tcpb_SI/tcpb_examples/python_openmm/rst/system.prmtop
+qmindices       /home/pan60047/tcpb_SI/tcpb_examples/python_openmm/rst/system.qmregion
+##qmindices 1 2 3
+
+##run coupling
+#cis         yes
+#cisnumstates 2
+#nacstate1   0
+#nacstate2   1
+

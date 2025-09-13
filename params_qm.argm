@@ -1,0 +1,25 @@
+# Argument file for QM model run (TCPB backend)
+output_file_prefix      qm-run
+random_seed             1234
+F                       1
+init_state              0
+n_atoms                 1212
+n_qm_atoms              42
+
+# --- TCPB Server Configuration ---
+tcpb_hostname           localhost
+tcpb_port               12345
+
+# --- Path Configuration ---
+#initial_geom_file       initial_geom.xyz
+prmtop_file             rst/system.prmtop
+rst7_file               rst/system.rst7
+qmregion_file           rst/system.qmregion
+terachem_input_file     rst/terachem.inp
+
+# --- Simulation Parameters ---
+time_units              femtoseconds
+end_time                1.0
+n_times                 11
+dt                      0.1
+n_trajs                 1
