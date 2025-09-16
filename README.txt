@@ -5,7 +5,7 @@ This code also requires my pytcpb update src files uploaded in the current repos
  Install pytcpb with Amber the standard way, and then 
 replace the src/tcpb-cpp/src files with my uploaded ones, and recompile
 
-Inputs: system.rst7, system.prmtop, system.qmregion. All in the rst folder. 
+Inputs: system.rst7, system.prmtop, system.qmregion, terachem.inp. All in the rst folder. 
 
 Can be submitted to Toreador partition or run in a Toreador interactive node 
 for running in interactive: ./interactive_qm.sh
