@@ -6,16 +6,21 @@ set -euo pipefail
 
 # --- Configuration ---
 TOTAL_TRAJECTORIES=1
-BASE_ARGM_FILE="params_qm.argm"
+# --- FIX: Define the output path for the .argm file ---
+BASE_ARGM_FILE="rst/params_qm.argm"
+# --- END FIX ---
 PYTHON_SCRIPT="main.py"
+# ======================================================================
+# --- MODIFICATION: Set the number of electronic states (F) ---
+# ======================================================================
+F_STATES=2
+# ======================================================================
 
 # --- TCPB Configuration ---
 TCPB_HOSTNAME="localhost"
 TCPB_PORT=12345
 
-
 fuser -k ${TCPB_PORT}/tcp 2>/dev/null || true
-
 
 # --- Start TeraChem Server ---
 echo ">>> Starting TeraChem server..."
@@ -25,7 +30,6 @@ module --ignore-cache load gcc/9.3.0
 module --ignore-cache load protobuf/3.11.2
 module --ignore-cache load libmatheval/1.1.11
 
-# GEMINI FIX: Temporarily disable 'exit on unbound variable' for the Intel script
 set +u
 source /home/rliang/intel/parallel_studio_xe_2019.5.075/bin/psxevars.sh
 set -u
@@ -41,7 +45,6 @@ $TeraChem/bin/terachem -s ${TCPB_PORT} &
 SERVER_PID=$!
 echo ">>> TeraChem server started with PID: ${SERVER_PID}"
 echo ""
-# Give the server a moment to start up
 sleep 10
 
 # --- Create Argument File ---
@@ -50,7 +53,7 @@ cat > "${BASE_ARGM_FILE}" << EOF
 # Argument file for QM model run (TCPB backend)
 output_file_prefix      qm-run
 random_seed             1234
-F                       1
+F                       ${F_STATES}
 init_state              0
 n_atoms                 1212
 n_qm_atoms              42
@@ -60,7 +63,6 @@ tcpb_hostname           ${TCPB_HOSTNAME}
 tcpb_port               ${TCPB_PORT}
 
 # --- Path Configuration ---
-#initial_geom_file       initial_geom.xyz
 prmtop_file             rst/system.prmtop
 rst7_file               rst/system.rst7
 qmregion_file           rst/system.qmregion
@@ -86,6 +88,5 @@ python3 "${PYTHON_SCRIPT}" "${BASE_ARGM_FILE}"
 
 # --- Cleanup ---
 echo ">>> Killing TeraChem server..."
-# Suppress error message if the process is already gone, and ensure the script doesn't fail
 kill $SERVER_PID 2>/dev/null || true
 echo ">>> Done."

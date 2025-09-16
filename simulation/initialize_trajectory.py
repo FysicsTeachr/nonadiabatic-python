@@ -23,7 +23,7 @@ def initialize_traj(params, model, rng):
     # --- 2. Electronic Initialization (using windowing) ---
     window_name = params.get("window_model", "histogram").lower()
     if window_name not in WINDOW_DISPATCH:
-        raise NotImplementedError(f"Window model '{window_name}' is not supported.")
+        raise NotImplementedError(f"Window model '{window_name}' is not yet added.")
 
     sampling_function = WINDOW_DISPATCH[window_name]
     x, p = sampling_function(init_state, F, L, rng)

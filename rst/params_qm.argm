@@ -1,7 +1,7 @@
 # Argument file for QM model run (TCPB backend)
 output_file_prefix      qm-run
 random_seed             1234
-F                       1
+F                       2
 init_state              0
 n_atoms                 1212
 n_qm_atoms              42
@@ -11,7 +11,6 @@ tcpb_hostname           localhost
 tcpb_port               12345
 
 # --- Path Configuration ---
-#initial_geom_file       initial_geom.xyz
 prmtop_file             rst/system.prmtop
 rst7_file               rst/system.rst7
 qmregion_file           rst/system.qmregion

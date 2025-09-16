@@ -20,3 +20,7 @@ cistarget 1
 #nacstate1   0
 #nacstate2   1
 
+
+cis yes
+cisnumstates 2
+cistarget 1
