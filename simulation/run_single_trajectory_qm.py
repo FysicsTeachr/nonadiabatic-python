@@ -64,6 +64,7 @@ def run_single_traj_qm(params, global_traj_idx, rng):
         n_t_out = n_steps + 1
         
         adiabatic_pops = np.zeros((n_t_out, qsys.F))
+        E_total_vs_time = np.zeros(n_t_out)
         x, p, R, P = unflatten(y, qsys.F, qsys.nuclear_model.n_atoms)
         x, p = np.atleast_1d(x), np.atleast_1d(p)
 
@@ -75,6 +76,11 @@ def run_single_traj_qm(params, global_traj_idx, rng):
         # Initial force calculation
         _, P_dot = qsys.update_qm_and_get_nuclear_derivs(x, p, R, P, 0)
         
+        # Initial energy calculation
+        KE_nucl = 0.5 * np.sum(P**2 / qsys.nuclear_model.masses[:, np.newaxis])
+        E_elec = 0.5 * np.sum(p**2 + x**2) + np.dot(adiabatic_pops[0, :], qsys.current_adiab_E)
+        E_total_vs_time[0] = KE_nucl + E_elec
+
         for k_t in range(1, n_t_out):
             # ======================================================================
             # --- DEBUG PRINTOUT at the start of each step ---
@@ -107,9 +113,16 @@ def run_single_traj_qm(params, global_traj_idx, rng):
             # --- Adiabatic Population Binning ---
             actions, _ = nq_from_xp(x, p, qsys.L)
             adiabatic_pops[k_t, :] = get_histogram_population(actions, qsys.L, qsys.F)
+            
+            # --- Total Energy Calculation ---
+            KE_nucl = 0.5 * np.sum(P**2 / qsys.nuclear_model.masses[:, np.newaxis])
+            E_elec = 0.5 * np.sum(p**2 + x**2) + np.dot(adiabatic_pops[k_t, :], qsys.current_adiab_E)
+            E_total_vs_time[k_t] = KE_nucl + E_elec
+
 
         return TrajectoryData(
             raw_adiabatic_pops_vs_time=adiabatic_pops,
+            E_total_vs_time=E_total_vs_time,
             is_bad_trajectory=False,
             original_trajectory_index=global_traj_idx
         )
@@ -119,7 +132,7 @@ def run_single_traj_qm(params, global_traj_idx, rng):
         import traceback
         traceback.print_exc()
         # Return a TrajectoryData object that indicates failure
-        return TrajectoryData(np.array([]), is_bad_trajectory=True, original_trajectory_index=global_traj_idx)
+        return TrajectoryData(np.array([]), np.array([]), is_bad_trajectory=True, original_trajectory_index=global_traj_idx)
     finally:
         if qm_model:
             qm_model.close()

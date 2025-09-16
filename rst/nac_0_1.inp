@@ -1,4 +1,4 @@
-basis           6-31g*
+basis           STO-3G
 method          b3lyp
 keep_scr        no
 charge          0

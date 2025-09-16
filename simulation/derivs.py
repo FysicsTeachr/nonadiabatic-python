@@ -1,7 +1,7 @@
 # simulation/derivs.py
 import numpy as np
 
-def derivs_meyer_miller_adiabatic(adiab_E,vnac_tensor,vx,p, R_dot_flat):
+def derivs_meyer_miller_adiabatic(adiab_E,nac_tensor,x,p, R_dot_flat):
     F = len(x)
     dx_dt, dp_dt = np.zeros(F), np.zeros(F)
     

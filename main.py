@@ -44,7 +44,7 @@ def main():
     
     # This ensures the analysis always matches the simulation length.
     if all_results and not all_results[0].is_bad_trajectory:
-        n_t_out = len(all_results[0].E_total_vs_time)
+        n_t_out = len(all_results[0].raw_adiabatic_pops_vs_time)
     else:
         # Fallback if all trajectories failed
         n_t_out = int(params["end_time_au"] / params["dt_au"]) + 1

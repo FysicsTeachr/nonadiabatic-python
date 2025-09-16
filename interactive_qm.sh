@@ -70,8 +70,8 @@ terachem_input_file     rst/terachem.inp
 
 # --- Simulation Parameters ---
 time_units              femtoseconds
-end_time                1.0
-n_times                 11
+end_time                0.2
+n_times                 3
 dt                      0.1
 n_trajs                 ${TOTAL_TRAJECTORIES}
 EOF

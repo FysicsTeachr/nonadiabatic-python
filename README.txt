@@ -1,10 +1,9 @@
 This code uses my current conda environments py36a100 and qmmm_env. 
 (Ask for access or install parmed and the dependencies for pytcpb and terachem)
 
-This code also requires my pytcpb update src folder uploaded in the current repository. Do this before use:
- Install pytcpb with Amber the standard way,
-replace the src/tcpb-cpp/src files with my uploaded ones (src folder), 
-and recompile
+This code also requires my pytcpb update src files uploaded in the current repository. Do this before use:
+ Install pytcpb with Amber the standard way, and then 
+replace the src/tcpb-cpp/src files with my uploaded ones, and recompile
 
 Inputs: system.rst7, system.prmtop, system.qmregion. All in the rst folder. 
 
@@ -71,31 +70,4 @@ MM Coords (first 2 atoms, Bohr):
 Finished job 3
 Accepted job 4
 CommBox: Sent job 4
-WARNING: cis already read from TC input file, skipping cis: yes
-WARNING: cisnumstates already read from TC input file, skipping cisnumstates: 2
-WARNING: cistarget already read from TC input file, skipping cistarget: 1
-Finished job 4
-Accepted job 5
-CommBox: Sent job 5
-WARNING: cis already read from TC input file, skipping cis: yes
-WARNING: cisnumstates already read from TC input file, skipping cisnumstates: 2
-Finished job 5
-Accepted job 6
-CommBox: Sent job 6
-
-==================== PROPAGATION STEP 2 ====================
-Time: 0.2000 fs
-Electronic x: [1.35160498 0.08533418]
-Electronic p: [1.26611707 1.15946132]
-Adiabatic Pops: [1. 0.]
-QM Atom 0 Coords (Bohr): [-0.81447319  6.54223371 -4.27078227]
-MM Atom 0 Coords (Bohr): [-6.33814203 -0.33637135  5.29501158]
-Finished job 6
-Accepted job 7
-CommBox: Sent job 7
-WARNING: cis already read from TC input file, skipping cis: yes
-WARNING: cisnumstates already read from TC input file, skipping cisnumstates: 2
-WARNING: cistarget already read from TC input file, skipping cistarget: 1
-Finished job 7
-Accepted job 8
 ....
