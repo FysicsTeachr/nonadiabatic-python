@@ -1,0 +1,15 @@
+run gradient
+basis 6-31g*
+charge 0
+spinmult 1
+method b3lyp1
+cis yes
+cisnumstates 2
+cistarget 1
+genscrdata false
+keep_scr no
+precision double
+prmtop server_2025-09-17-13.02.39/job_5/parameters.prmtop
+coordinates server_2025-09-17-13.02.39/job_5/geom.rst7
+qmindices server_2025-09-17-13.02.39/job_5/region.qm
+scrdir	server_2025-09-17-13.02.39/job_5/scr

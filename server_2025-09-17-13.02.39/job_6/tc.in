@@ -1,0 +1,15 @@
+run coupling
+basis 6-31g*
+charge 0
+spinmult 1
+method b3lyp1
+cis yes
+cisnumstates 2
+cistarget 1
+genscrdata false
+keep_scr no
+nacstate1 0
+nacstate2 1
+precision double
+coordinates server_2025-09-17-13.02.39/job_6/geom.xyz
+scrdir	server_2025-09-17-13.02.39/job_6/scr

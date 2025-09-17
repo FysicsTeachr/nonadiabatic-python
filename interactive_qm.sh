@@ -10,11 +10,6 @@ TOTAL_TRAJECTORIES=1
 BASE_ARGM_FILE="rst/params_qm.argm"
 # --- END FIX ---
 PYTHON_SCRIPT="main.py"
-# ======================================================================
-# --- MODIFICATION: Set the number of electronic states (F) ---
-# ======================================================================
-F_STATES=2
-# ======================================================================
 
 # --- TCPB Configuration ---
 TCPB_HOSTNAME="localhost"
@@ -53,7 +48,7 @@ cat > "${BASE_ARGM_FILE}" << EOF
 # Argument file for QM model run (TCPB backend)
 output_file_prefix      qm-run
 random_seed             1234
-F                       ${F_STATES}
+F                       1
 init_state              0
 n_atoms                 1212
 n_qm_atoms              42
@@ -70,9 +65,10 @@ terachem_input_file     rst/terachem.inp
 
 # --- Simulation Parameters ---
 time_units              femtoseconds
-end_time                0.2
-n_times                 3
+end_time                1.0
+n_times                 11
 dt                      0.1
+L                       0.5
 n_trajs                 ${TOTAL_TRAJECTORIES}
 EOF
 

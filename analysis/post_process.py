@@ -26,31 +26,35 @@ def analyze_and_write_output(
 
     # Process Adiabatic Populations
     summed_adiab_pops = np.sum(np.array([td.raw_adiabatic_pops_vs_time for td in good_traj_data]), axis=0)
-    # Normalize populations at each timestep
     norm_factor = np.sum(summed_adiab_pops, axis=1, keepdims=True)
     avg_adiab_pops = np.divide(summed_adiab_pops, norm_factor, out=np.zeros_like(summed_adiab_pops), where=norm_factor > 0)
     num_states = avg_adiab_pops.shape[1]
-
-    # Process Total Energy (and zero at t=0)
-    zeroed_E_total_trajs = []
-    for td in good_traj_data:
-        zeroed_E_total_trajs.append(td.E_total_vs_time - td.E_total_vs_time[0])
-
-    summed_E_total = np.sum(np.array(zeroed_E_total_trajs), axis=0)
-    avg_E_total = summed_E_total / num_good_trajs
-
+    
+    # Process All Energy Components
+    summed_total_energy = np.sum(np.array([td.E_total_vs_time for td in good_traj_data]), axis=0)
+    avg_total_energy = summed_total_energy / num_good_trajs
+    
+    summed_kin_energy = np.sum(np.array([td.E_kin_vs_time for td in good_traj_data]), axis=0)
+    avg_kin_energy = summed_kin_energy / num_good_trajs
+    
+    summed_pot_energy = np.sum(np.array([td.E_pot_vs_time for td in good_traj_data]), axis=0)
+    avg_pot_energy = summed_pot_energy / num_good_trajs
 
     with open(output_file_timedep, 'w') as f:
         f.write(f"# Time-Dependent Results (Python QM Simulation)\n")
         f.write(f"# Used {num_good_trajs} trajectories for analysis.\n")
 
-        header_parts = ["#Time", "E_total"]
+        header_parts = ["#Time"]
         header_parts.extend([f"P{i}_adia_avg" for i in range(num_states)])
+        header_parts.extend(["E_total_avg", "E_kin_avg", "E_pot_avg"])
         f.write("\t\t".join(header_parts) + "\n")
 
         for k_t, t_val in enumerate(time_points_eval):
-            line_parts = [f"{t_val:<12.6f}", f"{avg_E_total[k_t]:<12.6f}"]
+            line_parts = [f"{t_val:<12.6f}"]
             line_parts.extend([f"{avg_adiab_pops[k_t, i_s]:<12.6f}" for i_s in range(num_states)])
+            line_parts.append(f"{avg_total_energy[k_t]:<12.6f}")
+            line_parts.append(f"{avg_kin_energy[k_t]:<12.6f}")
+            line_parts.append(f"{avg_pot_energy[k_t]:<12.6f}")
             f.write("\t\t".join(line_parts) + "\n")
 
     print(f"Final time-dependent results written to {output_file_timedep.resolve()}")

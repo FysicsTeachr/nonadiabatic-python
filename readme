@@ -1,1 +1,2 @@
-See the README.txt file
+the v2 was basically the ground state plus checking that things were working and printing out the gradients, energy and coupling. This one was real meyer miller but the 7th calculation ended up with very high Henry: MM Charge: 0.4100000000, xyz (Ang): 729338685.6999999285  288724131895.0000000000  35324.6428790000
+

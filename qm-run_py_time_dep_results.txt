@@ -1,6 +1,6 @@
 # Time-Dependent Results (Python QM Simulation)
 # Used 1 trajectories for analysis.
-#Time		E_total		P0_adia_avg		P1_adia_avg
-0.000000    		0.000000    		1.000000    		0.000000    
-4.134137    		0.001958    		1.000000    		0.000000    
-8.268275    		0.007865    		1.000000    		0.000000    
+#Time		P0_adia_avg		E_total_avg		E_kin_avg		E_pot_avg
+0.000000    		1.000000    		0.000000    		0.000000    		0.000000    
+4.134137    		1.000000    		-0.000004   		0.001906    		-0.001910   
+8.268275    		1.000000    		-0.000008   		0.007593    		-0.007601   

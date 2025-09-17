@@ -34,10 +34,8 @@ class QM:
         self.n_atoms = int(params["n_atoms"])
         self.n_qm_atoms = int(params["n_qm_atoms"])
         
-        # --- FIX: Define rst path and ensure it exists ---
         self.rst_path = Path("rst")
         self.rst_path.mkdir(exist_ok=True)
-        # --- END FIX ---
         
         hostname, port = params["tcpb_hostname"], int(params["tcpb_port"])
         if tc.connect(host=hostname, port=port) != 0:
@@ -87,13 +85,12 @@ class QM:
         qm_mask = f"@{','.join(map(str, [i+1 for i in self.qm_indices]))}"
         mm_structure.strip(qm_mask)
         system = mm_structure.createSystem(nonbondedMethod=NoCutoff)
-        integrator = LangevinIntegrator(300*kelvin, 1/picosecond, 0.0001*picoseconds) ##VerletIntegrator(0.0001*picoseconds)
+        integrator = LangevinIntegrator(300*kelvin, 1/picosecond, 0.001*picoseconds)
         self.mm_context = Context(system, integrator)
         print("OpenMM context for pure MM forces created successfully.")
 
     def _generate_terachem_input_files(self):
         print("Generating TeraChem input files in rst/ directory...")
-        # --- FIX: Use the rst_path to create files in the correct directory ---
         with open(self.rst_path / "gs.inp", 'w') as f: f.write(self.base_terachem_inp)
         if self.F > 1:
             for i in range(1, self.F):
@@ -101,7 +98,6 @@ class QM:
             for i in range(self.F):
                 for j in range(i + 1, self.F):
                     with open(self.rst_path / f"nac_{i}_{j}.inp", 'w') as f: f.write(f"{self.base_terachem_inp}\ncis yes\ncisnumstates {self.F}\nnacstate1 {i}\nnacstate2 {j}\n")
-        # --- END FIX ---
         print("Input files generated.")
 
     def get_qm_properties(self, R_coords_bohr, step_idx):
@@ -126,9 +122,7 @@ class QM:
             print(f"MM Coords (first 2 atoms, Bohr):\n{mm_coords_bohr[:2]}")
             print("----------------------------------------------------------")
 
-        # --- FIX: Use the rst_path when setting up TeraChem jobs ---
         tc.setup(str(self.rst_path / "gs.inp"), self.qmattypes)
-        # --- END FIX ---
         energy, qm_grad, mm_grad_qm, status = tc.compute_energy_gradient(
             self.qmattypes, qm_coords_bohr.flatten(), mm_coords_bohr.flatten(), self.mm_charges.tolist(), 0
         )
@@ -143,9 +137,7 @@ class QM:
 
         if self.F > 1:
             for i_es in range(1, self.F):
-                # --- FIX: Use the rst_path when setting up TeraChem jobs ---
                 tc.setup(str(self.rst_path / f"es_{i_es}.inp"), self.qmattypes)
-                # --- END FIX ---
                 energy, qm_grad, mm_grad_qm, status = tc.compute_energy_gradient(
                     self.qmattypes, qm_coords_bohr.flatten(), mm_coords_bohr.flatten(), self.mm_charges.tolist(), 0
                 )
@@ -158,16 +150,12 @@ class QM:
             
             for i in range(self.F):
                 for j in range(i + 1, self.F):
-                    # --- FIX: Use the rst_path when setting up TeraChem jobs ---
                     tc.setup(str(self.rst_path / f"nac_{i}_{j}.inp"), self.qmattypes)
-                    # --- END FIX ---
                     nac_vec, status = self._compute_custom_vector("coupling", qm_coords_bohr)
                     if status != 0: raise RuntimeError(f"NAC coupling {i}-{j} failed with status {status}")
                     full_nac_vec = np.zeros((self.n_atoms, 3)); full_nac_vec[self.qm_indices] = nac_vec
                     nac_tensor[i, j, :] = nac_tensor[j, i, :] = full_nac_vec.flatten()
         
-        # Part here is now handled in run_single_trajectory_qm.py, 
-        # so we return the raw energies from this function.
         return adiab_E, Hel_dR_adia_list, nac_tensor
 
     def initialize_nuclear_coordinates(self, rng):
