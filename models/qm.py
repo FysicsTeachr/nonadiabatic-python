@@ -87,7 +87,7 @@ class QM:
         qm_mask = f"@{','.join(map(str, [i+1 for i in self.qm_indices]))}"
         mm_structure.strip(qm_mask)
         system = mm_structure.createSystem(nonbondedMethod=NoCutoff)
-        integrator = LangevinIntegrator(300*kelvin, 1/picosecond, 0.001*picoseconds)
+        integrator = LangevinIntegrator(300*kelvin, 1/picosecond, 0.001*picoseconds) ##VerletIntegrator(0.001*picoseconds)
         self.mm_context = Context(system, integrator)
         print("OpenMM context for pure MM forces created successfully.")
 
